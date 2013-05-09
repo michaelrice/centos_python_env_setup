@@ -27,12 +27,19 @@ python2.7 setup.py install
 cd /tmp
 wget http://mirror-fpt-telecom.fpt.net/fedora/epel/6/i386/epel-release-6-8.noarch.rpm
 rpm -ivh epel-release-6-8.noarch.rpm
-# Install pip; note that the package is named 'python-pip' whereas the executable will be named 'pip-python', for some reason
-yum -y install python-pip
-echo 'alias pip="/usr/bin/pip-python"' >> $HOME/.bashrc
-. $HOME/.bashrc
 # Install virtualenv and virtualenvwrapper
-sudo pip-python install virtualenv virtualenvwrapper
+# Once you make your first virtualenv, you'll have 'pip' in there.
+# I got bitten by trying to install a system-wide (i.e. Python 2.6) version of pip;
+# it was clobbering my access to pip from within virtualenvs, and it was a bad scene.
+# So these commands will install virtualenv/virtualenvwrapper the old school way,
+# just so you can make yourself a virtualenv, with pip, and then do everything Python-related
+# that you need to do, from in there.
+wget https://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.9.1.tar.gz#md5=07e09df0adfca0b2d487e39a4bf2270a
+tar -xvzf virtualenv-1.9.1.tar.gz 
+python virtualenv-1.9.1/setup.py install
+wget https://pypi.python.org/packages/source/v/virtualenvwrapper/virtualenvwrapper-4.0.tar.gz#md5=78df3b40735e959479d9de34e4b8ba15
+tar -xvzf virtualenvwrapper-*
+python virtualenvwrapper-4.0/setup.py install
 echo 'export WORKON_HOME=~/Envs' >> .bashrc # Change this directory if you don't like it
 . $HOME/.bashrc
 mkdir -p $WORKON_HOME
