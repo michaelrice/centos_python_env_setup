@@ -30,9 +30,8 @@ yum -y install python-pip
 echo 'alias pip="/usr/bin/pip-python"' >> $HOME/.bashrc
 . $HOME/.bashrc
 # Install virtualenv and virtualenvwrapper
-ENVS_DIR='~/Envs' # Change this if you don't like this location, of course
 sudo pip-python install virtualenv virtualenvwrapper
-echo 'export WORKON_HOME=$ENVS_DIR' >> .bashrc
+echo 'export WORKON_HOME=~/Envs' >> .bashrc # Change this directory if you don't like it
 . $HOME/.bashrc
 mkdir -p $WORKON_HOME
 echo '. /usr/bin/virtualenvwrapper.sh' >> .bashrc # installs to not-quite-standard location for some reason.
