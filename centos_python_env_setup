@@ -39,7 +39,7 @@ python virtualenvwrapper-4.0/setup.py install
 echo 'export WORKON_HOME=~/Envs' >> .bashrc # Change this directory if you don't like it
 . $HOME/.bashrc
 mkdir -p $WORKON_HOME
-echo '. /usr/bin/virtualenvwrapper.sh' >> .bashrc # installs to not-quite-standard location for some reason.
+echo '. /usr/bin/virtualenvwrapper.sh' >> .bashrc
 . $HOME/.bashrc
 
 # Done!
