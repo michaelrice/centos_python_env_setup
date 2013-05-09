@@ -15,7 +15,7 @@ echo 'alias shasum="sha1sum"' >> $HOME/.bashrc
 wget http://www.python.org/ftp/python/2.7.4/Python-2.7.4.tar.bz2
 tar xf Python-2.7.4.tar.bz2 
 cd Python-2.7.4
-./configure --prefix=/usr/local
+./configure --prefix=/opt/python2.7
 make && make altinstall
 set -o vi
 # Install distribute
