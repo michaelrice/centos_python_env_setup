@@ -9,6 +9,7 @@
 yum -y groupinstall "Development tools"
 yum -y install zlib-devel
 yum -y install bzip2-devel openssl-devel ncurses-devel
+yum -y install MySQL-python
 # Alias shasum to == sha1sum (will prevent some people's scripts from breaking)
 echo 'alias shasum="sha1sum"' >> $HOME/.bashrc
 # Install Python 2.7.4 (do NOT remove 2.6, by the way)
