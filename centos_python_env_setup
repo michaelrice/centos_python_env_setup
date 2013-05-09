@@ -15,7 +15,6 @@ tar xf Python-2.7.4.tar.bz2
 cd Python-2.7.4
 ./configure --prefix=/usr/local
 make && make altinstall
-/usr/local/bin/python2.7
 set -o vi
 # Install distribute
 wget http://pypi.python.org/packages/source/d/distribute/distribute-0.6.27.tar.gz
