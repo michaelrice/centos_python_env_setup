@@ -23,10 +23,6 @@ wget http://pypi.python.org/packages/source/d/distribute/distribute-0.6.27.tar.g
 tar xf distribute-0.6.27.tar.gz 
 cd distribute-0.6.27
 python2.7 setup.py install
-# Add EPEL repo (more details at cyberciti.biz/faq/fedora-sl-centos-redhat6-enable-epel-repo/)
-cd /tmp
-wget http://mirror-fpt-telecom.fpt.net/fedora/epel/6/i386/epel-release-6-8.noarch.rpm
-rpm -ivh epel-release-6-8.noarch.rpm
 # Install virtualenv and virtualenvwrapper
 # Once you make your first virtualenv, you'll have 'pip' in there.
 # I got bitten by trying to install a system-wide (i.e. Python 2.6) version of pip;
@@ -60,3 +56,8 @@ yum updateinfo
 # Install trash-cli (safer than 'rm', see here: https://github.com/andreafrancia/trash-cli)
 sudo yum -y install python-unipath
 sudo yum install http://pkgs.repoforge.org/trash-cli/trash-cli-0.11.2-1.el6.rf.i686.rpm
+
+# Add EPEL repo (more details at cyberciti.biz/faq/fedora-sl-centos-redhat6-enable-epel-repo/)
+cd /tmp
+wget http://mirror-fpt-telecom.fpt.net/fedora/epel/6/i386/epel-release-6-8.noarch.rpm
+rpm -ivh epel-release-6-8.noarch.rpm
