@@ -2,18 +2,54 @@
 
 # Source: http://toomuchdata.com/2012/06/25/how-to-install-python-2-7-3-on-centos-6-2/
 
-yum groupinstall "Development tools"
-yum install zlib-devel
-yum install bzip2-devel openssl-devel ncurses-devel
-wget http://www.python.org/ftp/python/2.7.3/Python-2.7.3.tar.bz2
-tar xf Python-2.7.3.tar.bz2 
-cd Python-2.7.3
+# Install stuff #
+#################
+
+# Install development tools and some misc. necessary packages
+yum -y groupinstall "Development tools"
+yum -y install zlib-devel
+yum -y install bzip2-devel openssl-devel ncurses-devel
+# Install Python 2.7.4 (do NOT remove 2.6, by the way)
+wget http://www.python.org/ftp/python/2.7.4/Python-2.7.4.tar.bz2
+tar xf Python-2.7.4.tar.bz2 
+cd Python-2.7.4
 ./configure --prefix=/usr/local
 make && make altinstall
 /usr/local/bin/python2.7
 set -o vi
+# Install distribute
 wget http://pypi.python.org/packages/source/d/distribute/distribute-0.6.27.tar.gz
 tar xf distribute-0.6.27.tar.gz 
 cd distribute-0.6.27
 python2.7 setup.py install
-/usr/local/bin/easy_install-2.7 virtualenv
+# Add EPEL repo (more details at cyberciti.biz/faq/fedora-sl-centos-redhat6-enable-epel-repo/)
+cd /tmp
+wget http://mirror-fpt-telecom.fpt.net/fedora/epel/6/i386/epel-release-6-8.noarch.rpm
+rpm -ivh epel-release-6-8.noarch.rpm
+# Install pip; note that the package is named 'python-pip' whereas the executable will be named 'pip-python', for some reason
+yum -y install python-pip
+echo 'alias pip="/usr/bin/pip-python"' >> $HOME/.bashrc
+. $HOME/.bashrc
+# Install virtualenv and virtualenvwrapper
+ENVS_DIR='~/Envs' # Change this if you don't like this location, of course
+sudo pip-python install virtualenv virtualenvwrapper
+echo 'export WORKON_HOME=$ENVS_DIR' >> .bashrc
+. $HOME/.bashrc
+mkdir -p $WORKON_HOME
+echo '. /usr/bin/virtualenvwrapper.sh' >> .bashrc # installs to not-quite-standard location for some reason.
+. $HOME/.bashrc
+
+# Done!
+# Now you can do: `mkvirtualenv foo --python=python2.7`
+
+# Extra stuff #
+###############
+
+# These items are not required, but I recommend them
+
+# Add RPMForge repo
+sudo yum -y install http://packages.sw.be/rpmforge-release/rpmforge-release-0.5.2-2.el6.rf.i686.rpm
+yum updateinfo
+# Install trash-cli (safer than 'rm', see here: https://github.com/andreafrancia/trash-cli)
+sudo yum -y install python-unipath
+sudo yum install http://pkgs.repoforge.org/trash-cli/trash-cli-0.11.2-1.el6.rf.i686.rpm
