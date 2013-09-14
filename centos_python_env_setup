@@ -63,11 +63,11 @@ tar -xvzf virtualenvwrapper-*
 cd virtualenvwrapper-4.0
 echo "installing venvwrap" >> $LOGFILE
 $1/bin/python2.7 setup.py install
-echo "installed venvwrap successfully"
+echo "installed venvwrap successfully" >> $LOGFILE
 
 echo 'export WORKON_HOME=~/Envs' >> $HOME/.bashrc # Change this directory if you don't like it
 echo 'export PATH=$PATH:'$1/bin >> $HOME/.bashrc
-echo "export VIRTUALENVWRAPPER_PYTHON=$1/bin/python2.7"
+echo "export VIRTUALENVWRAPPER_PYTHON=$1/bin/python2.7" >> $HOME/.bashrc
 . $HOME/.bashrc
 mkdir -p $WORKON_HOME
 echo "source $1/bin/virtualenvwrapper.sh" >> $HOME/.bashrc
