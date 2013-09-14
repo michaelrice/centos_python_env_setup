@@ -2,7 +2,7 @@
 
 set -e
 # Source: http://toomuchdata.com/2012/06/25/how-to-install-python-2-7-3-on-centos-6-2/
-
+LOGFILE=~/$0.log
 # Install stuff #
 #################
 if [ -z $1 ]; then
@@ -50,10 +50,11 @@ cd virtualenvwrapper-4.0
 $1/bin/python2.7 setup.py install
 
 echo 'export WORKON_HOME=~/Envs' >> $HOME/.bashrc # Change this directory if you don't like it
+echo 'export PATH=$PATH:'$1/bin >> $HOME/.bashrc
+echo "export VIRTUALENVWRAPPER_PYTHON=$1/bin/python2.7" >> $HOME/.bashrc
 . $HOME/.bashrc
 mkdir -p $WORKON_HOME
 echo "source $1/bin/virtualenvwrapper.sh" >> $HOME/.bashrc
-echo 'export PATH=$PATH:'$1/bin >> $HOME/.bashrc
 . $HOME/.bashrc
 
 
@@ -69,4 +70,5 @@ if [ ! -f /etc/yum.repos.d/epel.repo ]; then
     fi
     rpm -Uvh http://mirror-fpt-telecom.fpt.net/fedora/epel/6/i386/epel-release-6-8.noarch.rpm
 fi
-echo "Done! Now you can do: 'mkvirtualenv foo --python=python2.7'"
+echo "Done!"
+echo "source your bashrc then you can do: 'mkvirtualenv foo --python=python2.7'"
