@@ -12,38 +12,26 @@ if [ -z $1 ]; then
 fi
 # Install development tools and some misc. necessary packages
 yum -y groupinstall "Development tools"
-echo "Installed Development Tools" > $LOGFILE
 yum -y install zlib-devel  # gen'l reqs
-echo "installed zlib-devel" >> $LOGFILE
 yum -y install bzip2-devel openssl-devel ncurses-devel  # gen'l reqs
-echo "installed bzip2-devel and friends" >> $LOGFILE
 yum -y install mysql-devel  # req'd to use MySQL with python ('mysql-python' package)
-echo "installed mysql-devel and friends" >> $LOGFILE
 yum -y install libxml2-devel libxslt-devel  # req'd by python package 'lxml'
-echo "installed libxml2-devel and friends" >> $LOGFILE
 yum -y install unixODBC-devel  # req'd by python package 'pyodbc'
-echo "installed unixodbc-devel" >> $LOGFILE
 yum -y install sqlite sqlite-devel  # you will be sad if you don't install this before compiling python, and later need it.
-echo "installed sqlite" >> $LOGFILE
 # Alias shasum to == sha1sum (will prevent some people's scripts from breaking)
 echo 'alias shasum="sha1sum"' >> $HOME/.bashrc
 # Install Python 2.7.4 (do NOT remove 2.6, by the way)
 wget http://www.python.org/ftp/python/2.7.4/Python-2.7.4.tar.bz2
-echo "downloaded python" >> $LOGFILE
 tar xf Python-2.7.4.tar.bz2 
 cd Python-2.7.4
-echo "building python" >> $LOGFILE
 ./configure --prefix=$1
 make && make altinstall
-echo "installed python into $1" >> $LOGFILE
 set -o vi
 # Install distribute
 wget --no-check-certificate http://pypi.python.org/packages/source/d/distribute/distribute-0.6.27.tar.gz
 tar xf distribute-0.6.27.tar.gz 
 cd distribute-0.6.27
-echo "installing distribute" >> $LOGFILE
 $1/bin/python2.7 setup.py install
-echo "installed distribute successfully" >> $LOGFILE
 # Install virtualenv and virtualenvwrapper
 # Once you make your first virtualenv, you'll have 'pip' in there.
 # I got bitten by trying to install a system-wide (i.e. Python 2.6) version of pip;
@@ -54,16 +42,12 @@ echo "installed distribute successfully" >> $LOGFILE
 wget --no-check-certificate https://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.9.1.tar.gz#md5=07e09df0adfca0b2d487e39a4bf2270a
 tar -xvzf virtualenv-1.9.1.tar.gz 
 cd virtualenv-1.9.1
-echo "installing virtualenv" >> $LOGFILE
 $1/bin/python2.7 setup.py install
-echo "installed virtualenv" >> $LOGFILE
 cd ..
 wget --no-check-certificate https://pypi.python.org/packages/source/v/virtualenvwrapper/virtualenvwrapper-4.0.tar.gz#md5=78df3b40735e959479d9de34e4b8ba15
 tar -xvzf virtualenvwrapper-*
 cd virtualenvwrapper-4.0
-echo "installing venvwrap" >> $LOGFILE
 $1/bin/python2.7 setup.py install
-echo "installed venvwrap successfully" >> $LOGFILE
 
 echo 'export WORKON_HOME=~/Envs' >> $HOME/.bashrc # Change this directory if you don't like it
 echo 'export PATH=$PATH:'$1/bin >> $HOME/.bashrc
@@ -86,4 +70,5 @@ if [ ! -f /etc/yum.repos.d/epel.repo ]; then
     fi
     rpm -Uvh http://mirror-fpt-telecom.fpt.net/fedora/epel/6/i386/epel-release-6-8.noarch.rpm
 fi
-echo "Done! Now you can do: 'mkvirtualenv foo --python=python2.7'"
+echo "Done!"
+echo "source your bashrc then you can do: 'mkvirtualenv foo --python=python2.7'"
