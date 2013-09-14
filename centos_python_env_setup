@@ -1,10 +1,15 @@
 #!/bin/bash
 
+set -e
 # Source: http://toomuchdata.com/2012/06/25/how-to-install-python-2-7-3-on-centos-6-2/
 
 # Install stuff #
 #################
-
+if [ -z $1 ]; then
+    echo "set the prefix to install"
+    echo "for example: $0 /usr/local/python2.7"
+    exit
+fi
 # Install development tools and some misc. necessary packages
 yum -y groupinstall "Development tools"
 yum -y install zlib-devel  # gen'l reqs
@@ -19,14 +24,14 @@ echo 'alias shasum="sha1sum"' >> $HOME/.bashrc
 wget http://www.python.org/ftp/python/2.7.4/Python-2.7.4.tar.bz2
 tar xf Python-2.7.4.tar.bz2 
 cd Python-2.7.4
-./configure --prefix=/opt/python2.7
+./configure --prefix=$1
 make && make altinstall
 set -o vi
 # Install distribute
-wget http://pypi.python.org/packages/source/d/distribute/distribute-0.6.27.tar.gz
+wget --no-check-certificate http://pypi.python.org/packages/source/d/distribute/distribute-0.6.27.tar.gz
 tar xf distribute-0.6.27.tar.gz 
 cd distribute-0.6.27
-python2.7 setup.py install
+$1/bin/python2.7 setup.py install
 # Install virtualenv and virtualenvwrapper
 # Once you make your first virtualenv, you'll have 'pip' in there.
 # I got bitten by trying to install a system-wide (i.e. Python 2.6) version of pip;
@@ -34,34 +39,33 @@ python2.7 setup.py install
 # So these commands will install virtualenv/virtualenvwrapper the old school way,
 # just so you can make yourself a virtualenv, with pip, and then do everything Python-related
 # that you need to do, from in there.
-wget https://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.9.1.tar.gz#md5=07e09df0adfca0b2d487e39a4bf2270a
+wget --no-check-certificate https://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.9.1.tar.gz#md5=07e09df0adfca0b2d487e39a4bf2270a
 tar -xvzf virtualenv-1.9.1.tar.gz 
-python virtualenv-1.9.1/setup.py install
-wget https://pypi.python.org/packages/source/v/virtualenvwrapper/virtualenvwrapper-4.0.tar.gz#md5=78df3b40735e959479d9de34e4b8ba15
+cd virtualenv-1.9.1
+$1/bin/python2.7 setup.py install
+cd ..
+wget --no-check-certificate https://pypi.python.org/packages/source/v/virtualenvwrapper/virtualenvwrapper-4.0.tar.gz#md5=78df3b40735e959479d9de34e4b8ba15
 tar -xvzf virtualenvwrapper-*
-python virtualenvwrapper-4.0/setup.py install
-echo 'export WORKON_HOME=~/Envs' >> .bashrc # Change this directory if you don't like it
+cd virtualenvwrapper-4.0
+$1/bin/python2.7 setup.py install
+
+echo 'export WORKON_HOME=~/Envs' >> $HOME/.bashrc # Change this directory if you don't like it
 . $HOME/.bashrc
 mkdir -p $WORKON_HOME
 echo '. /usr/bin/virtualenvwrapper.sh' >> .bashrc
 . $HOME/.bashrc
 
-# Done!
-# Now you can do: `mkvirtualenv foo --python=python2.7`
 
 # Extra stuff #
 ###############
-
-# These items are not required, but I recommend them
-
-# Add RPMForge repo
-sudo yum -y install http://packages.sw.be/rpmforge-release/rpmforge-release-0.5.2-2.el6.rf.i686.rpm
-yum updateinfo
-# Install trash-cli (safer than 'rm', see here: https://github.com/andreafrancia/trash-cli)
-sudo yum -y install python-unipath
-sudo yum install http://pkgs.repoforge.org/trash-cli/trash-cli-0.11.2-1.el6.rf.i686.rpm
-
 # Add EPEL repo (more details at cyberciti.biz/faq/fedora-sl-centos-redhat6-enable-epel-repo/)
-cd /tmp
-wget http://mirror-fpt-telecom.fpt.net/fedora/epel/6/i386/epel-release-6-8.noarch.rpm
-rpm -ivh epel-release-6-8.noarch.rpm
+if [ ! -f /etc/yum.repos.d/epel.repo ]; then
+    echo "Looks like you dont have epel setup. Want to do that now (y/n): "
+    read answer
+    if [ ${answer} != "y" ]; then
+        echo "Done! Now you can do: 'mkvirtualenv foo --python=python2.7'"
+        exit
+    fi
+    rpm -Uvh http://mirror-fpt-telecom.fpt.net/fedora/epel/6/i386/epel-release-6-8.noarch.rpm
+fi
+echo "Done! Now you can do: 'mkvirtualenv foo --python=python2.7'"
