@@ -50,10 +50,10 @@ cd virtualenvwrapper-4.0
 $1/bin/python2.7 setup.py install
 
 echo 'export WORKON_HOME=~/Envs' >> $HOME/.bashrc # Change this directory if you don't like it
-mkdir -p $WORKON_HOME
 echo "source $1/bin/virtualenvwrapper.sh" >> $HOME/.bashrc
 echo 'export PATH=$PATH:'$1/bin >> $HOME/.bashrc
 . $HOME/.bashrc
+mkdir -p $WORKON_HOME
 
 
 # Extra stuff #
