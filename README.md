@@ -7,8 +7,9 @@ currently only been tested on CentOS 6.4
 Usage is simple. Simply download, set executable, and run giving a path of
 where to install python 
 
-  wget https://raw.github.com/michaelrice/centos_python_env_setup/master/centos_python_env_setup
-  chmod +x centos_python_env_setup
-  ./centos_python_env_setup /usr/local/python2.7
+    wget https://raw.github.com/michaelrice/centos_python_env_setup/master/centos_python_env_setup
+    chmod +x centos_python_env_setup
+    ./centos_python_env_setup /usr/local/python2.7
 
 profit
+
