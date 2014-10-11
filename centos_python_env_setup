@@ -14,12 +14,7 @@ PYVER=2.7.4
 
 # Install development tools and some misc. necessary packages
 yum -y groupinstall "Development tools"
-yum -y install zlib-devel  # gen'l reqs
-yum -y install bzip2-devel openssl-devel ncurses-devel  # gen'l reqs
-yum -y install mysql-devel  # req'd to use MySQL with python ('mysql-python' package)
-yum -y install libxml2-devel libxslt-devel  # req'd by python package 'lxml'
-yum -y install unixODBC-devel  # req'd by python package 'pyodbc'
-yum -y install sqlite sqlite-devel  # you will be sad if you don't install this before compiling python, and later need it.
+yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel mysql-devel libxml2-devel libxslt-devel unixODBC-devel sqlite sqlite-devel # gen'l reqs
 # Alias shasum to == sha1sum (will prevent some people's scripts from breaking)
 echo 'alias shasum="sha1sum"' >> $HOME/.bashrc
 # Install Python ${PYVER} (do NOT remove 2.6, by the way)
